@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <center><h1 class="mb-4">Add a New Pet</h1></center>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <form action="{{ url_for('main.add_pet') }}" method="POST">
+                <div class="form-group">
+                    <label for="name">Pet Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="owner">Owner Name</label>
+                    <input type="text" class="form-control" id="owner" name="owner" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Add Pet</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

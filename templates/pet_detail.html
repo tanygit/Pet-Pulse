@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ pet.name }}</h1>
+<p>Owner: {{ pet.owner }}</p>
+<p>Added on: {{ pet.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Insurance{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Manage Insurance</h1>
+    
+    <div>
+        <h2>Pets</h2>
+        <ul>
+            {% for pet in pets %}
+            <option value="{{ pet.id }}">{{ pet.name }}</option>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div>
+        <h2>Insurance Policies</h2>
+        <ul>
+            {% for policy in policies %}
+                <li>{{ policy }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

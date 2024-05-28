@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">Welcome to the Pet Management System</h1>
+    <p class="lead text-center">Manage your pets' appointments, reports, and more.</p>
+    <!-- Display list of pets -->
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card border-primary shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pet.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Owner: {{ pet.owner }}</h6>
+                    <p class="card-text"><strong>Medical History:</strong> {{ pet.medical_history }}</p>
+                    <p class="card-text"><strong>Vaccination History:</strong> {{ pet.vaccination_history }}</p>
+                    <p class="card-text"><strong>Allergies:</strong> {{ pet.allergies }}</p>
+                    <p class="card-text"><strong>Medications:</strong> {{ pet.medications }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

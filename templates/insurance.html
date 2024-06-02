@@ -1,27 +1,46 @@
 {% extends 'base.html' %}
 
-{% block title %}Insurance{% endblock %}
+{% block title %}Insurance Management{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <h1>Manage Insurance</h1>
     
-    <div>
+    <div class="my-4">
         <h2>Pets</h2>
-        <ul>
+        <select class="form-select" aria-label="Select a pet">
+            <option selected>Select a pet</option>
             {% for pet in pets %}
             <option value="{{ pet.id }}">{{ pet.name }}</option>
             {% endfor %}
-        </ul>
+        </select>
     </div>
     
-    <div>
+    <div class="my-4">
         <h2>Insurance Policies</h2>
-        <ul>
-            {% for policy in policies %}
-                <li>{{ policy }}</li>
-            {% endfor %}
-        </ul>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="policy_id" class="form-label">Select an Insurance Policy</label>
+                <select class="form-select" id="policy_id" name="policy_id">
+                    <option selected>Select a policy</option>
+                    {% for policy in policies %}
+                    <option value="{{ policy.id }}">{{ policy.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">View Policy Details</button>
+        </form>
+
+        {% if selected_policy %}
+        <div class="mt-4">
+            <h3>Policy Details</h3>
+            <p><strong>Name:</strong> {{ selected_policy.name }}</p>
+            <p><strong>Description:</strong> {{ selected_policy.description }}</p>
+            <p><strong>Coverage:</strong> {{ selected_policy.coverage }}</p>
+            <p><strong>Premium:</strong> ${{ selected_policy.premium }}</p>
+            <p><strong>Benefits:</strong> {{ selected_policy.benefits }}</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

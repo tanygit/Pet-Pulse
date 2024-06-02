@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
-from models import fetch_all_pets, fetch_all_policies, get_db_connection
+from models import fetch_all_pets, fetch_all_policies, fetch_pet_policies, add_pet_policy, get_db_connection
 import sqlite3
 from werkzeug.utils import secure_filename
 import os
@@ -85,10 +85,16 @@ def insurance():
     policies = fetch_all_policies()
     
     selected_policy = None
+    selected_pet_policies = []
+
     if request.method == 'POST':
-        policy_id = request.form['policy_id']
-        conn = get_db_connection()
-        selected_policy = conn.execute('SELECT * FROM insurance_policy WHERE id = ?', (policy_id,)).fetchone()
-        conn.close()
-    
-    return render_template('insurance.html', pets=pets, policies=policies, selected_policy=selected_policy)
+        pet_id = request.form.get('pet_id')
+        policy_id = request.form.get('policy_id')
+
+        if pet_id and policy_id:  # Link pet with insurance policy
+            add_pet_policy(pet_id, policy_id)
+
+        if pet_id:  # Fetch policies for selected pet
+            selected_pet_policies = fetch_pet_policies(pet_id)
+
+    return render_template('insurance.html', pets=pets, policies=policies, selected_pet_policies=selected_pet_policies)

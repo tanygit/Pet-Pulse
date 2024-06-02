@@ -58,6 +58,15 @@ def create_tables():
                     benefits TEXT NOT NULL
                 )''')
 
+    # Create the pet_insurance table
+    c.execute('''CREATE TABLE IF NOT EXISTS pet_insurance (
+                    pet_id INTEGER NOT NULL,
+                    policy_id INTEGER NOT NULL,
+                    PRIMARY KEY (pet_id, policy_id),
+                    FOREIGN KEY (pet_id) REFERENCES pets (id),
+                    FOREIGN KEY (policy_id) REFERENCES insurance_policy (id)
+                )''')
+
     conn.commit()
     conn.close()
 
@@ -70,6 +79,22 @@ def fetch_all_pets():
 def fetch_all_policies():
     conn = get_db_connection()
     policies = conn.execute('SELECT * FROM insurance_policy').fetchall()
+    conn.close()
+    return policies
+
+def add_pet_policy(pet_id, policy_id):
+    conn = get_db_connection()
+    conn.execute('INSERT INTO pet_insurance (pet_id, policy_id) VALUES (?, ?)', (pet_id, policy_id))
+    conn.commit()
+    conn.close()
+
+def fetch_pet_policies(pet_id):
+    conn = get_db_connection()
+    policies = conn.execute('''
+        SELECT ip.* FROM insurance_policy ip
+        JOIN pet_insurance pi ON ip.id = pi.policy_id
+        WHERE pi.pet_id = ?
+    ''', (pet_id,)).fetchall()
     conn.close()
     return policies
 

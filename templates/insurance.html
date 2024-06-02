@@ -7,40 +7,70 @@
     <h1>Manage Insurance</h1>
     
     <div class="my-4">
-        <h2>Pets</h2>
-        <select class="form-select" aria-label="Select a pet">
-            <option selected>Select a pet</option>
-            {% for pet in pets %}
-            <option value="{{ pet.id }}">{{ pet.name }}</option>
-            {% endfor %}
-        </select>
+        <h2>All Insurance Policies</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Plans</th>
+                    <th>Description</th>
+                    <th>Coverage</th>
+                    <th>Premium (₹)</th>
+                    <th>Benefits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for policy in policies %}
+                <tr>
+                    <td>{{ policy[0] }}</td>
+                    <td>{{ policy[1] }}</td>
+                    <td>{{ policy[2] }}</td>
+                    <td>{{ policy[3] }}</td>
+                    <td>{{ policy[4] }}</td>
+                    <td>{{ policy[5] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    
+
     <div class="my-4">
-        <h2>Insurance Policies</h2>
+        <h2>Link Pet with Insurance Policy</h2>
         <form method="POST">
+            <div class="mb-3">
+                <label for="pet_id" class="form-label">Select a Pet</label>
+                <select class="form-select" id="pet_id" name="pet_id">
+                    <option selected>Select a pet</option>
+                    {% for pet in pets %}
+                    <option value="{{ pet.id }}">{{ pet.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="mb-3">
                 <label for="policy_id" class="form-label">Select an Insurance Policy</label>
                 <select class="form-select" id="policy_id" name="policy_id">
                     <option selected>Select a policy</option>
                     {% for policy in policies %}
-                    <option value="{{ policy.id }}">{{ policy.name }}</option>
+                    <option value="{{ policy[0] }}">{{ policy[0] }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">View Policy Details</button>
+            <button type="submit" class="btn btn-primary">Link Policy</button>
         </form>
-
-        {% if selected_policy %}
-        <div class="mt-4">
-            <h3>Policy Details</h3>
-            <p><strong>Name:</strong> {{ selected_policy.name }}</p>
-            <p><strong>Description:</strong> {{ selected_policy.description }}</p>
-            <p><strong>Coverage:</strong> {{ selected_policy.coverage }}</p>
-            <p><strong>Premium:</strong> ${{ selected_policy.premium }}</p>
-            <p><strong>Benefits:</strong> {{ selected_policy.benefits }}</p>
-        </div>
-        {% endif %}
     </div>
+
+    {% if pet_policies %}
+    <div class="my-4">
+        <h2>Linked Insurance Policies</h2>
+        <ul class="list-group">
+            {% for pet_policy in pet_policies %}
+            <li class="list-group-item">
+                <strong>{{ pet_policy.pet_name }}</strong> is linked with 
+                <strong>{{ pet_policy.policy_name if pet_policy.policy_name else "No Policy" }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

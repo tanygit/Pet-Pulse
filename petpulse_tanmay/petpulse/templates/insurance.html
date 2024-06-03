@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Insurance Management
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Insurance Management</h1>
+
+    <div class="my-4">
+        <h2>All Insurance Policies</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Coverage</th>
+                    <th>Price (₹)</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for policy in policies %}
+                <tr>
+                    <td>{{ policy[0] }}</td>
+                    <td>{{ policy[1] }}</td>
+                    <td>{{ policy[2] }}</td>
+                    <td>{{ policy[3] }}</td>
+                    <td>{{ policy[4] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="my-4">
+        <h2>Link Pet with Insurance Policy</h2>
+        {% for pet in pets %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ pet.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Owner: {{ pet.owner }}</h6>
+                <form method="POST">
+                    <input type="hidden" name="pet_id" value="{{ pet.id }}">
+                    <div class="mb-3">
+                        <label for="policy_id_{{ pet.id }}" class="form-label">Select an Insurance Policy</label>
+                        <select class="form-select" id="policy_id_{{ pet.id }}" name="policy_id">
+                            <option selected>Select a policy</option>
+                            {% for policy in policies %}
+                            <option value="{{ policy[0] }}">{{ policy[0] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Link Policy</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

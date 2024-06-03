@@ -1,0 +1,200 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emergency Contacts</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 60px; /* Space for fixed navbar */
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 20px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #contacts {
+            text-align: center;
+        }
+        .contact-item {
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+        .contact-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .contact-phone {
+            color: #555;
+        }
+        .contact-address {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="#">Emergency Contacts</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.add_pet') }}">Add Pet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.upload_report') }}">Upload Report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.appointments') }}">Schedule Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.insurance') }}">Manage Insurance</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1>Find Emergency Contacts</h1>
+    <div class="container">
+        <center><button onclick="getLocation()">Find Contacts Near Me</button></center>
+        <div id="contacts"></div>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            fetch(`/get_contacts?lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    const contactsDiv = document.getElementById('contacts');
+                    contactsDiv.innerHTML = '';
+                    data.contacts.forEach(contact => {
+                        contactsDiv.innerHTML += `
+                            <div class="contact-item">
+                                <p class="contact-name">${contact.name}</p>
+                                <p class="contact-phone">${contact.phone}</p>
+                                <p class="contact-address">${contact.address}</p>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html> -->
+
+{% extends 'base.html' %}
+
+{% block title %}Emergency Contacts{% endblock %}
+
+{% block content %}
+    <h1 class="my-4 text-center">Find Emergency Contacts</h1>
+    <div class="container">
+        <center><button class="btn btn-primary" onclick="getLocation()">Find Contacts Near Me</button></center>
+        <div id="contacts" class="mt-4"></div>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const googleMapsLink = `https://www.google.com/maps/search/veterinary+near+me/@${lat},${lon},14z`;
+            const contactsDiv = document.getElementById('contacts');
+            contactsDiv.innerHTML = `
+                <div class="contact-item p-3 mb-3 bg-white rounded shadow-sm">
+                    <p class="contact-name">Nearest Veterinary Locations</p>
+                    <p><a href="${googleMapsLink}" target="_blank">View Veterinary Locations on Google Maps</a></p>
+                </div>
+            `;
+        }
+
+        function showError(error) {
+            let errorMessage = '';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    errorMessage = "An unknown error occurred.";
+                    break;
+            }
+            alert(errorMessage);
+        }
+    </script>
+{% endblock %}
+
+
+
+
+

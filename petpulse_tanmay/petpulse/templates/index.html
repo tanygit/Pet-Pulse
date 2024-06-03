@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">Welcome to the Pet Management System</h1>
+    <p class="lead text-center">Manage your pets' appointments, reports, and more.</p>
+    <!-- Display list of pets -->
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card border-primary shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pet.name }}</h5>
+                    <p class="card-text"><strong>Animal-breed: </strong>{{ pet.animal }}</p>
+                    <p class="card-text"><strong>Age:</strong> {{ pet.age }}</p>
+                    <p class="card-text"><strong>Allergies:</strong> {{ pet.allergies }}</p>
+                    <p class="card-text"><strong>Appointment Time:</p></strong>
+                    <ul>
+                        {% for appointment in appointments %}
+                            {% if appointment.pet_id == pet.id %}
+                               <li>{{ appointment.date }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+    
+                    {% for no in pet_ins %}
+
+                        {%if pet.id == no.pet_id%}
+
+                        <p class="card-text"><strong>Pet ID:</strong> {{ no.pet_id}}</p>
+                        <p class="card-text"><strong>Policy:</strong> {{ no.policy_id}}</p>
+
+                            {% for policy in policies %}
+                                {% if policy.id == no.policy_id %}
+                                    <p class="card-text"><strong>Policy:</strong> {{ policy.description}}</p>
+                                    <!-- Replace 'column_name' with the actual column name you want to display -->
+                                {% endif %}
+                           {% endfor %}
+
+                        {% endif%}
+
+                          
+                {% endfor %}
+
+                {% for rep in report %}
+                {% if rep.pet_id == pet.id %}
+                    <p class="card-text"><strong>Report File:</strong> <a href="{{ url_for('main.display_report', filename=rep.report_file) }}">Display Report</a></p>
+                    <!-- <p><embed src="{{ url_for('main.display_report', filename=rep.report_file) }}" width="100%" height="600px"></embed></p> -->
+                        {% endif %}
+                {% endfor %}
+
+
+                <button type="submit"  class="btn btn-primary btn-block mt-3" ><a href="{{ url_for('main.update_pet', pet_id=pet.id) }}" style="color: aliceblue; text-decoration: none;" >Update</a></button>
+                    
+                <form action="{{ url_for('main.delete_pet', pet_id=pet.id) }}" method="post" style="display:inline;">
+                    <button type="submit"  class="btn btn-primary btn-block mt-3" >Delete</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+</div>
+{% endblock %}

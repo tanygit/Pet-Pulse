@@ -1,7 +1,7 @@
 import sqlite3
 
 def initialize():
-    conn = sqlite3.connect('petpulse_tanmay\petpulse\petpulse.db')
+    conn = sqlite3.connect('petpulse_tanmay/petpulse/petpulse.db')
     c = conn.cursor()
 
     # Create the insurance_policy table

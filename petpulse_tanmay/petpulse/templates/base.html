@@ -6,18 +6,18 @@
     <title>Pet Pulse {% block title %}{% endblock %}</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/jpg">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo_4.jpg') }}" type="image/jpg">
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(45deg,#e4cac7,#d0cbde);
         }
         .navbar {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .hero-section {
             position: relative;
-            background: url("{{ url_for('static', filename='images/pet_2.jpg') }}") no-repeat center center;
+            background: url("{{ url_for('static', filename='images/b.jpg') }}") no-repeat center center;
             background-size: cover;
             color: white;
             padding: 100px 0;
@@ -71,7 +71,8 @@
             transform: translateY(-10px);
         }
         .footer {
-            background-color: #343a40;
+            /* background-color: #343a40; */
+            background: linear-gradient(45deg,#c86458,#bda5ff);
             color: white;
             padding: 0px 0;
             text-align: center;
@@ -133,9 +134,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"  style="background: linear-gradient(45deg,#c86458,#bda5ff);">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
-            <img src="{{ url_for('static', filename='images/logo.jpg') }}" width="30" height="30" class="d-inline-block align-top" alt="Pet Pulse Logo">
+            <img src="{{ url_for('static', filename='images/logo_2.jpg') }}" style="border-radius: 50%;" width="35" height="35" class="d-inline-block align-top" alt="Pet Pulse Logo">
             Pet Pulse
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

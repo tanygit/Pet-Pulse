@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <center><h1>Appointment Scheduled</h1></center>
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Thank you!</h4>
+        <p>Your appointment has been scheduled successfully.</p>
+        {% if email and phone %}
+            <p>We will get in touch with you shortly via email: <strong>{{ email }}</strong> or phone: <strong>{{ phone }}</strong>.</p>
+        {% else %}
+            <p>We will see you at the scheduled appointment time.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -12,6 +12,7 @@
         <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
             <div class="card border-primary shadow">
                 <div class="card-body">
+                    <img src="{{ url_for('static', filename='pfps/' + pet.file) }}" alt="Image of {{ pet.name }}" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #007bff;">
                     <h5 class="card-title">{{ pet.name }}</h5>
                     <p class="card-text"><strong>Animal-breed: </strong>{{ pet.animal }}</p>
                     <p class="card-text"><strong>Age:</strong> {{ pet.age }}</p>
@@ -29,8 +30,6 @@
 
                         {%if pet.id == no.pet_id%}
 
-                        <p class="card-text"><strong>Pet ID:</strong> {{ no.pet_id}}</p>
-                        <p class="card-text"><strong>Policy:</strong> {{ no.policy_id}}</p>
 
                             {% for policy in policies %}
                                 {% if policy.id == no.policy_id %}
@@ -66,3 +65,4 @@
 </div>
 </div>
 {% endblock %}
+

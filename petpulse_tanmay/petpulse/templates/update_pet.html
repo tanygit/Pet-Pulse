@@ -15,7 +15,7 @@
             {% endif %}
             {% endwith %}
 
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ pet['name'] }}" required>
@@ -31,6 +31,10 @@
                 <div class="form-group">
                     <label for="allergies"> Allergies:</label>
                     <input type="text"   class="form-control" id="allergies" name="allergies" value="{{ pet['allergies'] }}" required>   
+                </div>
+                <div class="form-group">
+                    <label for="file">Pet Pic: </label>
+                    <input type="file" class="form-control-file" id="file" name="file" required>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary btn-block mt-3" >Update</button>

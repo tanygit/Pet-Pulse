@@ -1,7 +1,7 @@
 import sqlite3
 
 def get_db_connection():
-    conn = sqlite3.connect('petpulse_tanmay/petpulse/petpulse.db')
+    conn = sqlite3.connect('petpulse.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -15,7 +15,8 @@ def create_tables():
                     name TEXT NOT NULL,
                     animal TEXT NOT NULL,
                     age TEXT,
-                    allergies TEXT
+                    allergies TEXT,
+                    file TEXT NOT NULL
                 )''')
 
     # Create the reports table

@@ -12,7 +12,7 @@
             {% endfor %}
             {% endif %}
             {% endwith %}
-            <form action="{{ url_for('main.add_pet') }}" method="POST">
+            <form action="{{ url_for('main.add_pet') }}" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Pet Name</label>
                     <input type="text" class="form-control" id="name" name="name" required>
@@ -28,6 +28,10 @@
                 <div class="form-group">
                     <label for="animal">Allergies</label>
                     <input type="text" class="form-control" id="allergies" name="allergies" required>
+                </div>
+                <div class="form-group">
+                    <label for="file">Pet Pic: </label>
+                    <input type="file" class="form-control-file" id="file" name="file" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mt-3">Add Pet</button>
             </form>

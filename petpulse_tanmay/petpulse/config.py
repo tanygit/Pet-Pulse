@@ -5,6 +5,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///pet_pulse.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = 'uploads'
+    IMAGE_FOLDER='pfps'
     MAX_CONTENT_PATH = 16 * 1024 * 1024  # 16MB max file size
     MAIL_SERVER = 'smtp.example.com'
     MAIL_PORT = 587

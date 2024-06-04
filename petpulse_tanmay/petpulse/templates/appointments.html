@@ -21,8 +21,30 @@
                 <label for="description">Description:</label>
                 <textarea class="form-control custom-textarea" id="description" name="description" rows="3" required></textarea>
             </div>
+            <div class="form-group">
+                <label for="virtual_consultation">Virtual Consultation:</label>
+                <input type="checkbox" id="virtual_consultation" name="virtual_consultation" onclick="toggleContactInfo()">
+            </div>
+            <div class="form-group" id="contact_info_group" style="display: none;">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control custom-input" id="email" name="email">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" class="form-control custom-input" id="phone" name="phone">
+            </div>
             <button type="submit" class="btn custom-btn">Schedule Appointment</button>
         </form>
     </div>
 </div>
+
+<script>
+    function toggleContactInfo() {
+        var checkBox = document.getElementById("virtual_consultation");
+        var contactInfoGroup = document.getElementById("contact_info_group");
+        if (checkBox.checked == true) {
+            contactInfoGroup.style.display = "block";
+        } else {
+            contactInfoGroup.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}

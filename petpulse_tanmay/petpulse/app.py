@@ -17,6 +17,12 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
+IMAGE_FOLDER = os.path.join(os.getcwd(), 'petpulse_tanmay/petpulse/static/pfps')
+app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
+
+if not os.path.exists(IMAGE_FOLDER):
+    os.makedirs(IMAGE_FOLDER)
+
 # Initialize SocketIO
 socketio = SocketIO(app)
 

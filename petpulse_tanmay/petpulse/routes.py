@@ -25,8 +25,21 @@ def add_pet():
         animal = request.form['animal']
         age=request.form['age']
         allergies=request.form['allergies']
+
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        
+        # Ensure the upload directory exists
+        image_folder = current_app.config['IMAGE_FOLDER']
+        if not os.path.exists(image_folder):
+            os.makedirs(image_folder)
+
+        # Save the file
+        file.save(os.path.join(image_folder, filename))
+
+
         conn = get_db_connection()
-        conn.execute('INSERT INTO pets (name, animal,age,allergies) VALUES (?, ?,?,?)', (name,animal,age,allergies))
+        conn.execute('INSERT INTO pets (name,animal,age,allergies,file) VALUES (?, ?,?,?,?)', (name,animal,age,allergies,filename))
         conn.commit()
         conn.close()
         return redirect(url_for('main.index'))
@@ -43,8 +56,19 @@ def update_pet(pet_id):
         animal = request.form['animal']
         age=request.form['age']
         allergies=request.form['allergies']
+        file = request.files['file']
+        filename = secure_filename(file.filename)
         
-        conn.execute('UPDATE pets SET name = ?, animal = ?,age=?,allergies= ? WHERE id = ?', (name,animal,age,allergies,pet_id))
+        # Ensure the upload directory exists
+        image_folder = current_app.config['IMAGE_FOLDER']
+        if not os.path.exists(image_folder):
+            os.makedirs(image_folder)
+
+        # Save the file
+        file.save(os.path.join(image_folder, filename))
+
+        
+        conn.execute('UPDATE pets SET name = ?, animal = ?,age=?,allergies= ?,file=?  WHERE id = ?', (name,animal,age,allergies,filename,pet_id))
         conn.commit()
         conn.close()
         
@@ -99,6 +123,9 @@ def appointments():
         pet_id = request.form['pet_id']
         date = request.form['date']
         description = request.form['description']
+        virtual_consultation = request.form.get('virtual_consultation', None) == 'on'
+        email = request.form.get('email', None)
+        phone = request.form.get('phone', None)
         
         conn = get_db_connection()
         conn.execute('INSERT INTO appointments (pet_id, date, description) VALUES (?, ?, ?)',
@@ -106,10 +133,16 @@ def appointments():
         conn.commit()
         conn.close()
         
-        return redirect(url_for('main.index'))
+        if virtual_consultation:
+            
+            print(f"Virtual consultation requested. Email: {email}, Phone: {phone}")
+            
+        
+        return render_template('appointment_confirmation.html', virtual_consultation=virtual_consultation, email=email, phone=phone)
     
     pets = fetch_all_pets()
     return render_template('appointments.html', pets=pets)
+
 
 @main_blueprint.route('/emergency_contacts')
 def emergency_contacts():
